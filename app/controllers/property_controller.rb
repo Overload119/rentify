@@ -17,8 +17,10 @@ class PropertyController < ApplicationController
     if @property.nil?
       render 'public/404', :status => :not_found
     else
+      # Normally I would abstract this logic into the Property.near method
       @nearby_properties = Property.near([@property.latitude, @property.longitude], 20, :units => :km)
       @nearby_properties.reject! { |p| p == @property }
+      @nearby_properties.sort! { |a, b| Geocoder::Calculations.distance_between(a.location, @property.location) <=> Geocoder::Calculations.distance_between(b.location, @property.location)}
       render 'show'
     end
   end

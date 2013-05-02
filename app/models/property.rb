@@ -7,7 +7,10 @@ class Property < ActiveRecord::Base
 
   attr_accessible :name, :latitude, :longitude, :bedroom_count
 
-  # Generates a dummy Property value and saves it to the DB
+  def location
+    [self.latitude, self.longitude]
+  end
+
   def self.search(query)
     if query.blank?
       find(:all)
@@ -16,13 +19,14 @@ class Property < ActiveRecord::Base
     end
   end
 
+  # Generates a dummy Property value and saves it to the DB
   def self.generate
     property = Property.new
     property.assign_attributes({
       :name => "#{RANDOM_ADJECTIVES.sample} #{RANDOM_HOME.sample}",
       :bedroom_count => rand(8) + 1,
-      :latitude => HOME_BASE[:latitude] + (rand() * 50 - 25),
-      :longitude => HOME_BASE[:longitude] + (rand() * 50 - 25)
+      :latitude => HOME_BASE[:latitude] + (rand() * 0.1 - 0.05),
+      :longitude => HOME_BASE[:longitude] + (rand() * 0.1 - 0.05)
     })
     property.save!
     property

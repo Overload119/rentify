@@ -6,8 +6,6 @@
   </div>
 </div>
 
-
-
 <% unless @nearby_properties.blank? %>
   <div class="row">
     <div class="small-12 columns">
@@ -25,7 +23,8 @@
         <div class="panel">
           <h3><%= truncate(property.name, :length => 30, :seperator => ' ') %></h3>
           <p>This is a great property with <%= pluralize(property.bedroom_count, "bedroom") %>. </p>
-          <%= link_to "View this Property", property_path(property),:class => "button" %>
+          <p>It is located <strong><%= Geocoder::Calculations.distance_between(@property.location, property.location).round(2) %></strong> km away from this property.</p>
+          <%= link_to "View this Property", property_path(property), :class => "button" %>
         </div>
       </div>
     </div>
