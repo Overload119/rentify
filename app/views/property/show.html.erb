@@ -1,28 +1,20 @@
 <div class="row">
   <div class="large-12 columns">
-    <h1><%= link_to "Our Properties", "/" %></h1>
+    <h1><%= @property.name %></h1>
+    <h4>Located at <%= @property.latitude %>, <%= @property.longitude %></h4>
+    <img src="http://placehold.it/950x400" />
   </div>
 </div>
 
-<div class="row">
-  <%= form_tag('/search', :method => :get) do %>
-    <div class="small-9 columns">
-      <%= text_field_tag :q, params[:search], :placeholder => "Search for properties by name..." %>
-    </div>
-    <div class="small-3 columns">
-      <%= submit_tag "Search", :class => "button prefix" %>
-    </div>
-  <% end %>
-</div>
 
-<% if @properties.blank? %>
+
+<% unless @nearby_properties.blank? %>
   <div class="row">
     <div class="small-12 columns">
-      <h2 class="subheader">No properties to show.</h2>
+      <h2 class="subheader">Nearby properties...</h2>
     </div>
   </div>
-<% else %>
-  <% @properties.each do |property| %>
+  <% @nearby_properties.each do |property| %>
     <br/>
     <div class="row">
       <div class="small-5 columns">
@@ -40,4 +32,12 @@
   <% end %>
 <% end %>
 
-
+<br/>
+<div class="row">
+  <div class="small-3 columns">
+    <%= link_to "Back", :back, :class => "button" %>
+  </div>
+  <div class="small-3 columns">
+    <%= link_to "Show all Listings", "/", :class => "button" %>
+  </div>
+</div>
